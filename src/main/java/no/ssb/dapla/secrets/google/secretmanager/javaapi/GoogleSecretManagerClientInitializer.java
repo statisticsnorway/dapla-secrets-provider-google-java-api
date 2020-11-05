@@ -7,12 +7,12 @@ import no.ssb.service.provider.api.ProviderName;
 import java.util.Map;
 import java.util.Set;
 
-@ProviderName("google-secret-manager")
+@ProviderName("google-secret-manager-java-api")
 public class GoogleSecretManagerClientInitializer implements SecretManagerClientInitializer {
 
     @Override
     public String providerId() {
-        return "google-secret-manager";
+        return "google-secret-manager-java-api";
     }
 
     @Override

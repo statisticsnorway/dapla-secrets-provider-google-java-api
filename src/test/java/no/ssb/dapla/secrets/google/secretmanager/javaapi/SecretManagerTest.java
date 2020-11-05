@@ -23,7 +23,7 @@ public class SecretManagerTest {
                 .build();
 
         Map<String, String> providerConfiguration = Map.of(
-                "secrets.provider", "google-secret-manager",
+                "secrets.provider", "google-secret-manager-java-api",
                 "secrets.projectId", "ssb-team-dapla",
                 "secrets.serviceAccountKeyPath", getServiceAccountFile(configuration)
         );
