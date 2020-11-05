@@ -1,4 +1,4 @@
-module dapla.secrets.client {
+module dapla.secrets.provider.google.java.api {
 
     requires gax;
     requires google.cloud.secretmanager;
