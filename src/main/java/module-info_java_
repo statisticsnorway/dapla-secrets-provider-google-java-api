@@ -1,0 +1,12 @@
+module dapla.secrets.client {
+
+    requires gax;
+    requires google.cloud.secretmanager;
+    requires com.google.auth.oauth2;
+    requires com.google.auth;
+
+    requires proto.google.cloud.secretmanager.v1;
+
+    exports no.ssb.dapla.secrets.google.secretmanager.javaapi;
+
+}
