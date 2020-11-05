@@ -17,7 +17,7 @@ public class SecretManagerTest {
 
     @Disabled
     @Test
-    void readGoogleSecret() {
+    public void readGoogleSecret() {
         DynamicConfiguration configuration = new StoreBasedDynamicConfiguration.Builder()
                 .propertiesResource("application-override.properties")
                 .build();
