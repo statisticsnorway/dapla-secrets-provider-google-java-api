@@ -36,7 +36,7 @@ public class SecretManagerTest {
 
     String getServiceAccountFile(DynamicConfiguration configuration) {
         String path = configuration.evaluateToString("gcp.service-account.file");
-        if (!Files.isReadable(Paths.get(path))) {
+        if (path == null || !Files.isReadable(Paths.get(path))) {
             throw new RuntimeException("Missing 'application-override.properties'-file with required property 'gcp.service-account.file'");
         }
         return path;
