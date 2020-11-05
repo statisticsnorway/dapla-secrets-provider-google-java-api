@@ -1,6 +1,7 @@
 package no.ssb.dapla.secrets.google.secretmanager.javaapi;
 
 import com.google.api.gax.core.FixedCredentialsProvider;
+import com.google.auth.oauth2.ComputeEngineCredentials;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.secretmanager.v1.AccessSecretVersionResponse;
@@ -13,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GoogleSecretManagerClient implements SecretManagerClient {
@@ -25,21 +25,24 @@ public class GoogleSecretManagerClient implements SecretManagerClient {
     // uses compute-engine
     public GoogleSecretManagerClient(String projectId) {
         this.projectId = projectId;
-        this.client = newClient(null);
+        GoogleCredentials credentials = ComputeEngineCredentials.create();
+        GoogleCredentials scopedCredentials = credentials.createScoped("https://www.googleapis.com/auth/cloud-platform");
+        SecretManagerServiceSettings settings = getServiceSettings(scopedCredentials);
+        this.client = newClient(settings);
     }
 
     // uses service-account
     public GoogleSecretManagerClient(String projectId, String serviceAccountKeyPath) {
         this.projectId = projectId;
         GoogleCredentials credentials = getServiceAccountCredentials(serviceAccountKeyPath);
-        GoogleCredentials scopedCredentials = credentials.createScoped(Collections.singletonList("https://www.googleapis.com/auth/cloud-platform"));
+        GoogleCredentials scopedCredentials = credentials.createScoped("https://www.googleapis.com/auth/cloud-platform");
         SecretManagerServiceSettings settings = getServiceSettings(scopedCredentials);
         this.client = newClient(settings);
     }
 
     SecretManagerServiceClient newClient(SecretManagerServiceSettings settings) {
         try {
-            return settings == null ? SecretManagerServiceClient.create() : SecretManagerServiceClient.create(settings);
+            return SecretManagerServiceClient.create(settings);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
